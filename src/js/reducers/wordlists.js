@@ -5,6 +5,7 @@ export default (state = {}, payload) => {
 
 
         case (AppConstants.APP_LIST_REFRESH): {
+            console.log("Receive list refresh");
             return {
                 ...state,
                 wordLists: payload.wordLists

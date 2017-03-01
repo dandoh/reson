@@ -4,6 +4,10 @@
 
 import React, {Component} from 'react';
 import AppActions from '../../actions/AppActions';
+import ListRow from '../Shared/ListRow.react'
+import {Col, Button, ButtonGroup} from 'react-bootstrap';
+
+import { LinkContainer } from 'react-router-bootstrap';
 
 
 export default class Lists extends Component {
@@ -13,14 +17,22 @@ export default class Lists extends Component {
 
     constructor(props) {
         super(props);
-
         this.buildWordLists = this.buildWordLists.bind(this);
     }
 
+
     render() {
+        const divStyle = {
+            'overflow-y': 'scroll',
+            'height': '300px'
+        };
+
         return (
             <div>
-                <div> this.buildWordList() </div>
+                <div style={divStyle}> { this.buildWordLists() } </div>
+                <LinkContainer to='/new'>
+                    <Button color="green">Create new list</Button>
+                </LinkContainer>
             </div>
         )
     }
@@ -46,14 +58,11 @@ export default class Lists extends Component {
     buildPlayListRow() {
         return this.props.wordLists.map((list) => {
             return (
-                <li>
-                    <div>
-                        { list.name }
-                    </div>
-                    <button>Play</button>
-                </li>
+                <ListRow wordList={list}/>
             )
         });
 
     }
+
+
 }

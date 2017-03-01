@@ -4,6 +4,7 @@
 
 import React, {Component} from 'react';
 import AppActions from '../../actions/AppActions';
+import { LinkContainer } from 'react-router-bootstrap';
 
 
 export default class WordList extends Component {
@@ -35,6 +36,9 @@ export default class WordList extends Component {
         if (this.props.currentWords.length > 0) {
             return (
                 <div>
+                    <LinkContainer to='/lists'>
+                        <button>Back</button>
+                    </LinkContainer>
                     <div>Number loop :</div>
                     <input type="text" value={this.state.numLoop} onChange={this.handleChangeNumLoop}/>
                     <div>Interval time between words :</div>
@@ -48,6 +52,9 @@ export default class WordList extends Component {
         } else {
             return (
                 <div>
+                    <LinkContainer to='/lists'>
+                        <button>Back</button>
+                    </LinkContainer>
                     Nothing here !
                 </div>
             )

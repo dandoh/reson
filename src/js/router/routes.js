@@ -16,6 +16,7 @@ import Setting from '../components/Setting/Setting.React'
 const init = {
 
     app: () => {
+        AppActions.wordlists.refresh();
         AppActions.init();
     },
 

@@ -17,9 +17,25 @@ export default (state = {}, payload) => {
             console.log(audioFolders);
             app.config.set('audioFolders', audioFolders);
             app.config.saveSync();
-            return { ...state }
+            return {...state}
         }
 
+        case (AppConstants.APP_SETTING_DELETE_FOLDER): {
+            console.log("den day roi ne");
+            let audioFolders = app.config.get('audioFolders');
+            console.log(audioFolders);
+            let deleteFolder = payload.folderPath;
+
+
+            audioFolders = audioFolders.filter((folder) => {
+                return deleteFolder != folder;
+            });
+
+            app.config.set('audioFolders', audioFolders);
+            app.config.saveSync();
+
+            return {...state}
+        }
 
         default: {
             return state;

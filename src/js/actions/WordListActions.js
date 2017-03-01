@@ -17,7 +17,8 @@ const realpathAsync = Promise.promisify(fs.realpath);
 
 const refresh = async() => {
     try {
-        const wordLists = await models.WordList.find({}).sort({name: 1}).execAsync();
+        const wordLists = await models.WordList.find({}).execAsync();
+        console.log("Reloaded wordlist");
         store.dispatch({
             type: AppConstants.APP_LIST_REFRESH,
             wordLists
@@ -55,7 +56,7 @@ const createWordList = async(name, wordsWithPath) => {
 
         console.log(addWordsRes);
 
-
+        console.log("Calling refresh");
         refresh();
         hashHistory.replace(`/play/${addListRes._id}`);
 

@@ -29,7 +29,16 @@ const addFolders = () => {
     });
 };
 
+const deleteFolder = (folderPath) => {
+    console.log("ahahah");
+    store.dispatch({
+        type: AppConstants.APP_SETTING_DELETE_FOLDER,
+        folderPath
+    })
+};
+
 
 export default {
-    addFolders
+    addFolders,
+    deleteFolder
 }

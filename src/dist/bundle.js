@@ -27472,6 +27472,7 @@
 	const init = {
 
 	    app: () => {
+	        _AppActions2.default.wordlists.refresh();
 	        _AppActions2.default.init();
 	    },
 
@@ -27625,7 +27626,8 @@
 	const refresh = (() => {
 	    var _ref = _asyncToGenerator(function* () {
 	        try {
-	            const wordLists = yield _models2.default.WordList.find({}).sort({ name: 1 }).execAsync();
+	            const wordLists = yield _models2.default.WordList.find({}).execAsync();
+	            console.log("Reloaded wordlist");
 	            _store2.default.dispatch({
 	                type: _AppConstants2.default.APP_LIST_REFRESH,
 	                wordLists
@@ -27668,6 +27670,7 @@
 
 	            console.log(addWordsRes);
 
+	            console.log("Calling refresh");
 	            refresh();
 	            _reactRouter.hashHistory.replace(`/play/${addListRes._id}`);
 	        } catch (err) {
@@ -49374,7 +49377,7 @@
 /* 375 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -49393,6 +49396,7 @@
 
 	        case _AppConstants2.default.APP_LIST_REFRESH:
 	            {
+	                console.log("Receive list refresh");
 	                return _extends({}, state, {
 	                    wordLists: payload.wordLists
 	                });
@@ -49443,8 +49447,9 @@
 	exports.default = (0, _keymirror2.default)({
 	    APP_LIST_LOAD_ONE: null,
 	    APP_LIST_REFRESH: null,
-	    APP_SETTING_ADD_FOLDERS: null,
 	    APP_LIST_ADD_LIST: null,
+	    APP_SETTING_ADD_FOLDERS: null,
+	    APP_SETTING_DELETE_FOLDER: null,
 	    APP_PLAYER_START: null,
 	    APP_PLAYER_NEXT: null,
 	    APP_PLAYER_STOP: null,
@@ -49549,6 +49554,23 @@
 	                console.log(audioFolders);
 	                _app2.default.config.set('audioFolders', audioFolders);
 	                _app2.default.config.saveSync();
+	                return _extends({}, state);
+	            }
+
+	        case _AppConstants2.default.APP_SETTING_DELETE_FOLDER:
+	            {
+	                console.log("den day roi ne");
+	                let audioFolders = _app2.default.config.get('audioFolders');
+	                console.log(audioFolders);
+	                let deleteFolder = payload.folderPath;
+
+	                audioFolders = audioFolders.filter(folder => {
+	                    return deleteFolder != folder;
+	                });
+
+	                _app2.default.config.set('audioFolders', audioFolders);
+	                _app2.default.config.saveSync();
+
 	                return _extends({}, state);
 	            }
 
@@ -53782,8 +53804,17 @@
 	    });
 	};
 
+	const deleteFolder = folderPath => {
+	    console.log("ahahah");
+	    _store2.default.dispatch({
+	        type: _AppConstants2.default.APP_SETTING_DELETE_FOLDER,
+	        folderPath
+	    });
+	};
+
 	exports.default = {
-	    addFolders
+	    addFolders,
+	    deleteFolder
 	};
 
 /***/ },
@@ -73533,6 +73564,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactBootstrap = __webpack_require__(406);
+
+	var _reactRouterBootstrap = __webpack_require__(672);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	class Header extends _react.Component {
@@ -73546,9 +73581,26 @@
 	            'div',
 	            null,
 	            _react2.default.createElement(
-	                'p',
-	                null,
-	                'Footer here'
+	                _reactBootstrap.Nav,
+	                { activeKey: 1, onSelect: undefined },
+	                _react2.default.createElement(
+	                    _reactRouterBootstrap.LinkContainer,
+	                    { to: '/lists' },
+	                    _react2.default.createElement(
+	                        _reactBootstrap.NavItem,
+	                        { eventKey: 1 },
+	                        'Lists'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    _reactRouterBootstrap.LinkContainer,
+	                    { to: '/setting' },
+	                    _react2.default.createElement(
+	                        _reactBootstrap.NavItem,
+	                        { eventKey: 2 },
+	                        'Setting'
+	                    )
+	                )
 	            )
 	        );
 	    }
@@ -73755,11 +73807,9 @@
 
 	var _AppActions2 = _interopRequireDefault(_AppActions);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _reactRouterBootstrap = __webpack_require__(672);
 
-	/**
-	 * Created by Dandoh on 2/23/17.
-	 */
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	class WordList extends _react.Component {
 
@@ -73785,6 +73835,15 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
+	                _react2.default.createElement(
+	                    _reactRouterBootstrap.LinkContainer,
+	                    { to: '/lists' },
+	                    _react2.default.createElement(
+	                        'button',
+	                        null,
+	                        'Back'
+	                    )
+	                ),
 	                _react2.default.createElement(
 	                    'div',
 	                    null,
@@ -73812,6 +73871,15 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
+	                _react2.default.createElement(
+	                    _reactRouterBootstrap.LinkContainer,
+	                    { to: '/lists' },
+	                    _react2.default.createElement(
+	                        'button',
+	                        null,
+	                        'Back'
+	                    )
+	                ),
 	                'Nothing here !'
 	            );
 	        }
@@ -73831,7 +73899,10 @@
 	        });
 	    }
 	}
-	exports.default = WordList;
+	exports.default = WordList; /**
+	                             * Created by Dandoh on 2/23/17.
+	                             */
+
 	WordList.propTypes = {
 	    wordLists: _react2.default.PropTypes.array,
 	    allWords: _react2.default.PropTypes.array,
@@ -73860,11 +73931,11 @@
 
 	var _AppActions2 = _interopRequireDefault(_AppActions);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _FolderRow = __webpack_require__(687);
 
-	/**
-	 * Created by Dandoh on 2/23/17.
-	 */
+	var _FolderRow2 = _interopRequireDefault(_FolderRow);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	class NewList extends _react.Component {
 
@@ -73897,11 +73968,7 @@
 	                    'ol',
 	                    null,
 	                    audioFolders.map(folder => {
-	                        return _react2.default.createElement(
-	                            'li',
-	                            null,
-	                            folder
-	                        );
+	                        return _react2.default.createElement(_FolderRow2.default, { folder: folder });
 	                    })
 	                ),
 	                _react2.default.createElement(
@@ -73918,7 +73985,10 @@
 	        _AppActions2.default.setting.addFolders();
 	    }
 	}
-	exports.default = NewList;
+	exports.default = NewList; /**
+	                            * Created by Dandoh on 2/23/17.
+	                            */
+
 	NewList.propTypes = {};
 
 /***/ },
@@ -74379,28 +74449,47 @@
 
 	var _AppActions2 = _interopRequireDefault(_AppActions);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _ListRow = __webpack_require__(686);
 
-	/**
-	 * Created by Dandoh on 2/23/17.
-	 */
+	var _ListRow2 = _interopRequireDefault(_ListRow);
+
+	var _reactBootstrap = __webpack_require__(406);
+
+	var _reactRouterBootstrap = __webpack_require__(672);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	class Lists extends _react.Component {
 
 	    constructor(props) {
 	        super(props);
-
 	        this.buildWordLists = this.buildWordLists.bind(this);
 	    }
 
 	    render() {
+	        const divStyle = {
+	            'overflow-y': 'scroll',
+	            'height': '300px'
+	        };
+
 	        return _react2.default.createElement(
 	            'div',
 	            null,
 	            _react2.default.createElement(
 	                'div',
-	                null,
-	                ' this.buildWordList() '
+	                { style: divStyle },
+	                ' ',
+	                this.buildWordLists(),
+	                ' '
+	            ),
+	            _react2.default.createElement(
+	                _reactRouterBootstrap.LinkContainer,
+	                { to: '/new' },
+	                _react2.default.createElement(
+	                    _reactBootstrap.Button,
+	                    { color: 'green' },
+	                    'Create new list'
+	                )
 	            )
 	        );
 	    }
@@ -74427,26 +74516,141 @@
 
 	    buildPlayListRow() {
 	        return this.props.wordLists.map(list => {
-	            return _react2.default.createElement(
-	                'li',
-	                null,
-	                _react2.default.createElement(
-	                    'div',
-	                    null,
-	                    list.name
-	                ),
-	                _react2.default.createElement(
-	                    'button',
-	                    null,
-	                    'Play'
-	                )
-	            );
+	            return _react2.default.createElement(_ListRow2.default, { wordList: list });
 	        });
 	    }
+
+	}
+	exports.default = Lists; /**
+	                          * Created by Dandoh on 2/23/17.
+	                          */
+
+	Lists.propTypes = {
+	    wordLists: _react2.default.PropTypes.array
+	};
+
+/***/ },
+/* 686 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _AppActions = __webpack_require__(262);
+
+	var _AppActions2 = _interopRequireDefault(_AppActions);
+
+	var _reactRouterBootstrap = __webpack_require__(672);
+
+	var _reactBootstrap = __webpack_require__(406);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Created by Dandoh on 2/23/17.
+	 */
+
+	class Lists extends _react.Component {
+
+	    constructor(props) {
+	        super(props);
+	    }
+
+	    render() {
+	        return _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	                'div',
+	                null,
+	                this.props.wordList.name
+	            ),
+	            _react2.default.createElement(
+	                _reactRouterBootstrap.LinkContainer,
+	                { to: '/play/' + this.props.wordList._id },
+	                _react2.default.createElement(
+	                    'button',
+	                    { onClick: this.goToWordList },
+	                    'Play'
+	                )
+	            )
+	        );
+	    }
+
 	}
 	exports.default = Lists;
 	Lists.propTypes = {
-	    wordLists: _react2.default.PropTypes.array
+	    wordList: _react2.default.PropTypes.object
+	};
+
+/***/ },
+/* 687 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _AppActions = __webpack_require__(262);
+
+	var _AppActions2 = _interopRequireDefault(_AppActions);
+
+	var _reactRouterBootstrap = __webpack_require__(672);
+
+	var _reactBootstrap = __webpack_require__(406);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Created by Dandoh on 2/23/17.
+	 */
+
+	class Lists extends _react.Component {
+
+	    constructor(props) {
+	        super(props);
+	        this.deleteFolder = this.deleteFolder.bind(this);
+	    }
+
+	    render() {
+	        return _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	                'div',
+	                null,
+	                this.props.folder
+	            ),
+	            _react2.default.createElement(
+	                'button',
+	                { onClick: this.deleteFolder },
+	                'delete'
+	            )
+	        );
+	    }
+
+	    deleteFolder() {
+	        console.log("hihihi");
+	        _AppActions2.default.setting.deleteFolder(this.props.folder);
+	    }
+
+	}
+	exports.default = Lists;
+	Lists.propTypes = {
+	    folder: _react2.default.PropTypes.object
 	};
 
 /***/ }

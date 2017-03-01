@@ -6,6 +6,7 @@ import React, {Component} from 'react';
 import {Col, Button, ButtonGroup} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import AppActions from '../../actions/AppActions';
+import FolderRow from '../Shared/FolderRow.react'
 
 
 export default class NewList extends Component {
@@ -36,9 +37,7 @@ export default class NewList extends Component {
                     <ol>
                         { audioFolders.map((folder) => {
                             return (
-                                <li>
-                                    { folder }
-                                </li>
+                                <FolderRow folder={folder}/>
                             )
                         })}
                     </ol>

@@ -8,11 +8,7 @@ import AppActions from '../../actions/AppActions';
 
 export default class ConfirmList extends Component {
     static propTypes = {
-        // library: React.PropTypes.array,
-        // tracks: React.PropTypes.array,
-        // trackPlayingId: React.PropTypes.string,
-        // wordlists: React.PropTypes.array,
-        // playerStatus: React.PropTypes.string
+        wordsToCreate: React.PropTypes.array
     };
 
     constructor(props) {
@@ -22,6 +18,7 @@ export default class ConfirmList extends Component {
         this.buildWordRows = this.buildWordRows.bind(this);
         this.createNewWordList = this.createNewWordList.bind(this);
         this.handleChange = this.handleChange.bind(this);
+
     }
 
     handleChange(event) {
@@ -29,28 +26,35 @@ export default class ConfirmList extends Component {
     }
 
     render() {
+        if (this.props.wordsToCreate.length > 0) {
 
-        this.props.words = this.props.location.query.words.trim().split(' ');
-        return (
-            <div>
-                <h1>List words: </h1>
-                <ul>
-                    { this.buildWordRows() }
-                </ul>
+            return (
+                <div>
+                    <h1>List words: </h1>
+                    <ul>
+                        { this.buildWordRows() }
+                    </ul>
 
-                <input type="text" value={this.state.value} onChange={this.handleChange}/>
-                <Button onClick={ this.createNewWordList }>
-                    Create
-                </Button>
-            </div>
-        );
+                    <input type="text" value={this.state.value} onChange={this.handleChange}/>
+                    <Button onClick={ this.createNewWordList }>
+                        Create
+                    </Button>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    Loading ...
+                </div>
+            )
+        }
     }
 
     buildWordRows() {
-        return this.props.words.map((word) => {
+        return this.props.wordsToCreate.map((wordAndPath) => {
             return (
                 <li>
-                    { word }
+                    { wordAndPath.word }
                 </li>
             )
         });
@@ -58,6 +62,7 @@ export default class ConfirmList extends Component {
     }
 
     createNewWordList() {
-        AppActions.wordlists.createWordList(this.state.value, this.props.words);
+        AppActions.wordlists.createWordList(this.state.value,
+            this.props.wordsToCreate);
     }
 }

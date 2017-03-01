@@ -1,9 +1,12 @@
 import wordlists from './wordlists';
 import setting from './setting'
+import player from './player'
+
 
 const reducers = [
     wordlists,
-    setting
+    setting,
+    player
 ];
 
 export default (state, action) => {

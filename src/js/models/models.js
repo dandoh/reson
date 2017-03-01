@@ -23,16 +23,15 @@ linvodb.dbPath = pathUserData;
 console.log("Path user data " + pathUserData);
 
 const Word = new linvodb('word', {
-    name: String,
+    word: String,
     path: String,
-    meaning: [String],
-    title: String,
+    meaning: String,
 });
 
+Word.ensureIndex({fieldName: 'word', unique: true});
 Word.ensureIndex({fieldName: 'path', unique: true});
-Word.ensureIndex({fieldName: 'name', unique: true});
 
-const WordList = new linvodb('wordListInit', {
+const WordList = new linvodb('wordlist', {
     name: String,
     words: {
         type: [String],

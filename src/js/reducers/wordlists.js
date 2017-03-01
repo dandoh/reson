@@ -3,11 +3,6 @@ import AppConstants from '../constants/AppConstants';
 export default (state = {}, payload) => {
     switch (payload.type) {
 
-        case (AppConstants.APP_LIST_ADD): {
-            return {
-                ...state,
-            };
-        }
 
         case (AppConstants.APP_LIST_REFRESH): {
             return {
@@ -23,6 +18,14 @@ export default (state = {}, payload) => {
                 sub: [...payload.words]
             };
             return newState;
+        }
+
+        case (AppConstants.APP_LIST_ADD_LIST): {
+            const newState = {...state};
+            console.log(payload.words);
+            newState.wordsToCreate = payload.words;
+
+            return newState
         }
 
         default: {

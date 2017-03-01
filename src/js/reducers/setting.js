@@ -7,7 +7,7 @@ import app          from '../app';
 export default (state = {}, payload) => {
     switch (payload.type) {
 
-        case (AppConstants.APP_LIST_ADD_FOLDERS): {
+        case (AppConstants.APP_SETTING_ADD_FOLDERS): {
             console.log(payload.audioFolders);
             const newFolders = payload.audioFolders;
             let audioFolders = app.config.get('audioFolders');

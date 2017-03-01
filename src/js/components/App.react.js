@@ -49,6 +49,12 @@ class Reson extends Component {
                                 wordLists: store.wordLists,
                                 allWords: store.words[store.cursor].all,
                                 currentWords: store.words[store.cursor].sub,
+                                wordsToCreate: store.wordsToCreate,
+                                queue: store.queue,
+                                queueCursor       :store.queueCursor,
+                                numQueueLoop      :store.numQueueLoop,
+                                repeat            :  store.repeat,
+                                playerStatus      : store.playerStatus
                             })
                         }
                     </Row>

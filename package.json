@@ -47,11 +47,13 @@
     "electron": "^1.4.1"
   },
   "dependencies": {
+    "bluebird": "^3.4.6",
     "bootstrap-css-only": "3.3.7",
     "font-awesome": "4.7.0",
+    "globby": "^6.1.0",
     "keymirror": "^0.1.1",
-    "linvodb3": "^3.25.0",
     "level-js": "^2.2.4",
+    "linvodb3": "^3.25.0",
     "open-sans-fontface": "1.4.0",
     "react": "^15.4.1",
     "react-bootstrap": "0.30.7",
@@ -63,7 +65,6 @@
     "react-router-bootstrap": "0.23.1",
     "react-simple-input": "0.3.1",
     "redux": "^3.6.0",
-    "teeny-conf": "^1.1.0",
-    "bluebird": "^3.4.6"
+    "teeny-conf": "^1.1.0"
   }
 }

@@ -21,7 +21,7 @@ const addFolders = () => {
                 return realpathAsync(folder);
             }).then((resolvedFolders) => {
                 store.dispatch({
-                    type: AppConstants.APP_LIST_ADD_FOLDERS,
+                    type: AppConstants.APP_SETTING_ADD_FOLDERS,
                     audioFolders: resolvedFolders
                 });
             });

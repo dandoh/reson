@@ -105,7 +105,8 @@ const findPath = async(word) => {
 
     let possiblePaths = utils.flatten(folders.map((folder) => {
         return [
-            path.join(folder, firstLetter, word + '.mp3'),
+            path.join(folder, firstLetter.toUpperCase(), word + '.mp3'),
+            path.join(folder, firstLetter.toLowerCase(), word + '.mp3')
         ]
     }));
     let pathsAndPossibility = await Promise.map(possiblePaths, (filePath) => {

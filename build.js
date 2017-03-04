@@ -4,24 +4,24 @@ process.env.NODE_ENV = 'production';
 
 
 /*
-|--------------------------------------------------------------------------
-| Modules
-|--------------------------------------------------------------------------
-*/
+ |--------------------------------------------------------------------------
+ | Modules
+ |--------------------------------------------------------------------------
+ */
 
-const fs       = require('fs');
-const path     = require('path');
+const fs = require('fs');
+const path = require('path');
 
 const packager = require('electron-packager');
-const rimraf   = require('rimraf');
-const app      = require('./package.json');
+const rimraf = require('rimraf');
+const app = require('./package.json');
 
 
 /*
-|--------------------------------------------------------------------------
-| Helpers
-|--------------------------------------------------------------------------
-*/
+ |--------------------------------------------------------------------------
+ | Helpers
+ |--------------------------------------------------------------------------
+ */
 
 function getDirectories(srcpath) {
     return fs.readdirSync(srcpath).filter((file) => {
@@ -31,39 +31,39 @@ function getDirectories(srcpath) {
 
 
 /*
-|--------------------------------------------------------------------------
-| Build config
-|--------------------------------------------------------------------------
-*/
+ |--------------------------------------------------------------------------
+ | Build config
+ |--------------------------------------------------------------------------
+ */
 
 const options = {
     // required
-    'dir'           :  './',
-    'name'          :  'Reson',
-    'platform'      : ['darwin', 'win32', 'linux'],
-    'arch'          : ['ia32', 'x64'],
-    'version'       :  '0.1.0',
-    'build-version' :  app.version,
-    'app-version'   :  app.version,
+    'dir': './',
+    'name': 'Reson',
+    'platform': ['darwin', 'win32'],
+    'arch': ['x64'],
+    'version'       :  '1.4.12',
+    'build-version': app.version,
+    'app-version': app.version,
 
     // optional
-    'prune'     :  true,
-    'ignore'    : /(build|node_modules\/+?(?!teeny).+)/,
-    'out'       :  path.join('build', 'dist', app.version),
-    'overwrite' :  true,
+    'prune': true,
+    'ignore': /(build|node_modules\/+?(?!teeny).+)/,
+    'out': path.join('build', 'dist', app.version),
+    'overwrite': true,
 };
 
 
 /*
-|--------------------------------------------------------------------------
-| Main stuff
-|--------------------------------------------------------------------------
-*/
+ |--------------------------------------------------------------------------
+ | Main stuff
+ |--------------------------------------------------------------------------
+ */
 
 console.info(`Starting Reson ${app.version} build`);
 
 packager(options, (err) => {
-    if(err) throw err;
+    if (err) throw err;
     else {
         console.info('Builds cleanup');
 
@@ -72,8 +72,10 @@ packager(options, (err) => {
 
         buildsPathes.forEach((folder) => {
             const appPath = path.join(versionPath, folder, 'resources', 'app');
-            rimraf(`${appPath}/src/js`, {}, () => {});
-            rimraf(`${appPath}/src/styles`, {}, () => {});
+            rimraf(`${appPath}/src/js`, {}, () => {
+            });
+            rimraf(`${appPath}/src/styles`, {}, () => {
+            });
         });
     }
 });

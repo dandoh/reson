@@ -109,6 +109,7 @@ const findPath = async(word) => {
             path.join(folder, firstLetter.toLowerCase(), word + '.mp3')
         ]
     }));
+
     let pathsAndPossibility = await Promise.map(possiblePaths, (filePath) => {
         return new Promise((resolve, reject) => {
             fs.exists(filePath, (exist) => {

@@ -27735,6 +27735,7 @@
 	        let possiblePaths = _utils2.default.flatten(folders.map(function (folder) {
 	            return [_path2.default.join(folder, firstLetter.toUpperCase(), word + '.mp3'), _path2.default.join(folder, firstLetter.toLowerCase(), word + '.mp3')];
 	        }));
+
 	        let pathsAndPossibility = yield _bluebird2.default.map(possiblePaths, function (filePath) {
 	            return new _bluebird2.default(function (resolve, reject) {
 	                _fs2.default.exists(filePath, function (exist) {

@@ -7,11 +7,7 @@ npm install -g electron
 ```bash
 npm install
 ```
-- Transpile code:
-```bash
-npm run dev
-```
-- Start the application on a new terminal:
+- Start the application
 ```bash
 electron .
 ```
